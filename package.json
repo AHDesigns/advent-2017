@@ -1,0 +1,23 @@
+{
+  "name": "advent",
+  "version": "1.0.0",
+  "description": "",
+  "main": "1_captcha.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AHDesigns/advent-2017.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AHDesigns/advent-2017/issues"
+  },
+  "homepage": "https://github.com/AHDesigns/advent-2017#readme",
+  "dependencies": {
+    "ramda": "^0.25.0"
+  }
+}
