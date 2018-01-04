@@ -1,5 +1,5 @@
 function generateArray(target) {
-        const arr = [[1,1]];
+        const arr = [[1,1,0]];
 
         var x = 1;
         var layer = 0;
@@ -10,22 +10,14 @@ function generateArray(target) {
                 const initX = x
                 x += (8 * layer) -1;
 
-                arr.push([initX, x]);
+                arr.push([initX, x, layer]);
         }
 
         return arr;
 }
 
-function findLayer(input, spiral) {
-        for (var x = 0; x < spiral.length; x++) {
-                const [min, max] = spiral[x];
-                if(min <= input && input <= max)
-                        return { min, layer: x }
-        }
-}
-
 function findSteps(input, spiral = []) {
-        const { min, layer } = findLayer(input, spiral);
+        const [min, max, layer] = spiral.find(([min,max]) => (min <= input && input <= max))
         const diff = input - min;
 
         if (diff === 0) {
