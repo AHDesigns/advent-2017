@@ -1,7 +1,11 @@
-var input1 = ["1122", 3];
-var input2 = ["91212129", 9];
-var input3 = ["1111", 4];
-var input4 = ["1234", 0];
+const { check } = require('./utils');
+
+const inputs = [
+        ["1122", 3],
+        ["91212129", 9],
+        ["1111", 4],
+        ["1234", 0],
+];
 
 // var input1 = ["1212", 6];
 // var input2 = ["1221", 0];
@@ -24,19 +28,4 @@ function stringToArray(numberString) {
         return numsAsNums;
 }
 
-function check(num) {
-        if(captcha(num[0], false)=== num[1]) {
-                console.log('true for: ', num[0], ' = ', num[1]);
-        } else {
-                console.log('failed for: ', num[0], ' result was: ', captcha(num[0]), ' expected: ', num[1]);
-        }
-}
-
-check(input1);
-check(input2);
-check(input3);
-check(input4);
-
-var val = process.env.VAL || "12"
-
-// console.log(captcha(val));
+inputs.forEach(input => check(input, captcha));
