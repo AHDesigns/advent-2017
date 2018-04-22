@@ -15,23 +15,24 @@ const printP = promisedRes => promisedRes
     .then(a => console.log(a))
     .catch(err => console.log(err));
 
-function check([originalInput, expected], meth) {
-    const input = originalInput.length > 30
-        ? `${originalInput.slice(0, 30)}...`
-        : originalInput;
+function check([input, expected], meth, ...args) {
+    const printableInput = input.length > 10
+        ? `${input.slice(0, 10)}...`
+        : input;
 
-    const res = meth(input);
+    console.log(chalk.gray('==========================================='));
+    console.time(' ');
+    const res = meth(input, ...args);
+    console.timeEnd(' ');
 
     if (res === expected) {
         /* eslint-disable */
         console.log(
-            chalk.gray('===========================================\n') +
-            chalk.green(' ✓ '), input, chalk.yellow(' ---> '), expected,
+            chalk.green(' ✓ '), printableInput, chalk.yellow(' ---> '), expected,
         );
     } else {
         console.log(
-            chalk.gray('===========================================\n') +
-            chalk.red(' x '), input, chalk.yellow(' ---> '), expected,
+            chalk.red(' x '), printableInput, chalk.yellow(' ---> '), expected,
             '\n result was ', res,
         );
         /* eslint-enable */

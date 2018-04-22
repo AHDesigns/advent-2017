@@ -14,21 +14,21 @@ const part2 = [
     ['123123', 12],
 ];
 
+const compareAgainst = (ishalf, i, orig) => {
+    const buff = ishalf ? (orig.length / 2) : 1;
+    return orig[(i + buff) % orig.length];
+};
 
-function captcha(numberString, ishalf) {
-    const arrOfNums = stringToArray(numberString, '');
-    const doubleCheck = arrOfNums.concat(arrOfNums);
-    const halfLifeMinusOne = ishalf ? (arrOfNums.length / 2) - 1 : 0;
-
-    return [0].concat(arrOfNums).reduce((acc, curr, i) => (
-        curr === doubleCheck[i + halfLifeMinusOne] ? acc + curr : acc
-    ));
-}
+const captcha = (input, ishalf) => stringToArray(input, '')
+    .reduce((acc, cur, i, arr) => (
+        cur === (compareAgainst(ishalf, i, arr)) ? acc + cur : acc
+    ), 0);
 
 part1.forEach(input => check(input, captcha));
-part2.forEach(input => check(input, captcha));
+part2.forEach(input => check(input, captcha, true));
 
 readFile('../input/01.txt')
     .then((input) => {
-        check([input, 1092], captcha);
+        check([input, 1136], captcha);
+        check([input, 1092], captcha, true);
     });
