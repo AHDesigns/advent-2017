@@ -1,24 +1,18 @@
 {
-  "name": "advent",
+  "name": "js",
   "version": "1.0.0",
   "description": "",
-  "main": "1_captcha.js",
+  "main": "day-01_captcha.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AHDesigns/advent-2017.git"
-  },
-  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/AHDesigns/advent-2017/issues"
-  },
-  "homepage": "https://github.com/AHDesigns/advent-2017#readme",
   "dependencies": {
-    "chalk": "^2.3.2",
-    "ramda": "^0.25.0"
+    "chalk": "^2.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0"
   }
 }
