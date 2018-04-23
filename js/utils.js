@@ -8,19 +8,17 @@ const readFile = file => new Promise((resolve) => {
 });
 
 const stringToArray = (numberString, seperator) => numberString
-    .split(seperator)
-    .map(n => parseInt(n, 10));
+    .split(seperator).map(n => parseInt(n, 10));
 
 const printP = promisedRes => promisedRes
     .then(a => console.log(a))
     .catch(err => console.log(err));
 
 function check([input, expected], meth, ...args) {
-    const printableInput = input.length > 10
-        ? `${input.slice(0, 10)}...`
-        : input;
+    const printableInput = JSON.stringify(input).slice(0, 10);
 
     console.log(chalk.gray('==========================================='));
+
     console.time(' ');
     const res = meth(input, ...args);
     console.timeEnd(' ');
