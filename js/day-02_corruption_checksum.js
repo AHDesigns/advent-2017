@@ -6,7 +6,8 @@ const part1 = [
             [5, 1, 9, 5],
             [7, 5, 3],
             [2, 4, 6, 8],
-        ], 18,
+        ],
+        18,
     ],
 ];
 
@@ -16,7 +17,8 @@ const part2 = [
             [5, 9, 2, 8],
             [9, 4, 7, 3],
             [3, 8, 6, 5],
-        ], 9,
+        ],
+        9,
     ],
 ];
 
@@ -42,17 +44,28 @@ const valInArr = (val, [head, ...tail]) => {
 const findDivisibleValue = ([head, ...tail]) =>
     valInArr(head, tail) || findDivisibleValue(tail);
 
-const captcha = input => (
+const findDifference = ([head, ...tail], values = { largest: head, smallest: head }) => {
+    if (!head) return values.largest - values.smallest;
+
+    if (head > values.largest) return findDifference(tail, { ...values, largest: head });
+    if (head < values.smallest) return findDifference(tail, { ...values, smallest: head });
+
+    return findDifference(tail, values);
+};
+
+const sumList = (input, meth) => (
     input.reduce((total, arr) => (
-        total + findDivisibleValue(arr)
+        total + meth(arr)
     ), 0)
 );
 
-part2.forEach(input => check(input, captcha));
+
+part1.forEach(input => check(input, sumList, findDifference));
+part2.forEach(input => check(input, sumList, findDivisibleValue));
 
 readFile('../input/02.txt')
     .then((text) => {
         const input = stringMethod(text);
-        check([input, 250], captcha);
-        // check([input, 1092], captcha, true);
+        check([input, 250], sumList, findDivisibleValue);
+        check([input, 47136], sumList, findDifference);
     });
