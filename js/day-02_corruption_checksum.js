@@ -28,19 +28,23 @@ const stringMethod = string => string
             .map(n => parseInt(n, 10))
     ));
 
+const valInArr = (val, [head, ...tail]) => {
+    if (!head) return undefined;
+
+    const modulus = val > head ? val % head : head % val;
+    if (modulus === 0 && val !== head) {
+        return val > head ? val / head : head / val;
+    }
+
+    return valInArr(val, tail);
+};
+
+const findDivisibleValue = ([head, ...tail]) =>
+    valInArr(head, tail) || findDivisibleValue(tail);
+
 const captcha = input => (
     input.reduce((total, arr) => (
-        total + arr.reduce((acc, cur) => {
-            if (typeof acc !== 'object') return acc;
-
-            for (const val of acc) {
-                const modulus = val > cur ? val % cur : cur % val;
-                if (modulus === 0 && val !== cur) {
-                    return val > cur ? val / cur : cur / val;
-                }
-            }
-            return acc.slice(1);
-        }, arr)
+        total + findDivisibleValue(arr)
     ), 0)
 );
 
