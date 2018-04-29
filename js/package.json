@@ -4,12 +4,16 @@
   "description": "",
   "main": "day-01_captcha.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "node-gyp rebuild",
+    "start": "node main.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chalk": "^2.4.0"
+    "chalk": "^2.4.0",
+    "nan": "^2.10.0",
+    "node-gyp": "^3.6.2"
   },
   "devDependencies": {
     "eslint": "^4.19.1",

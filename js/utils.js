@@ -15,12 +15,16 @@ const printP = promisedRes => promisedRes
     .catch(err => console.log(err));
 
 function check([input, expected], meth, ...args) {
-    const printableInput = JSON.stringify(input).slice(0, 10);
+    const printableInput = JSON.stringify(input).slice(0, 30);
 
     console.log(chalk.gray('==========================================='));
 
+    console.log(input.length);
     console.time(' ');
+    // let timeTaken = new Date();
     const res = meth(input, ...args);
+    // timeTaken = new Date() - timeTaken;
+    // console.log(timeTaken);
     console.timeEnd(' ');
 
     if (res === expected) {

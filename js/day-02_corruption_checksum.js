@@ -53,6 +53,11 @@ const findDifference = ([head, ...tail], values = { largest: head, smallest: hea
     return findDifference(tail, values);
 };
 
+const sortAndFindDifference = ([...arr]) => {
+    arr.sort((a, b) => a - b);
+    return arr[arr.length - 1] - arr[0];
+};
+
 const sumList = (input, meth) => (
     input.reduce((total, arr) => (
         total + meth(arr)
@@ -60,12 +65,32 @@ const sumList = (input, meth) => (
 );
 
 
-part1.forEach(input => check(input, sumList, findDifference));
-part2.forEach(input => check(input, sumList, findDivisibleValue));
 
 readFile('../input/02.txt')
     .then((text) => {
+        const multiplier = 800;
+        let megaArray = [];
         const input = stringMethod(text);
-        check([input, 250], sumList, findDivisibleValue);
-        check([input, 47136], sumList, findDifference);
+        for (let x = 0; x < multiplier; x++) {
+            megaArray = [...megaArray, ...input];
+        }
+        const expected = 47136 * multiplier;
+        //
+        // check([megaArray, 250], sumList, findDivisibleValue);
+        check([megaArray, expected], sumList, findDifference);
+        check([megaArray, expected], sumList, findDifference);
+        check([megaArray, expected], sumList, findDifference);
+        check([megaArray, expected], sumList, findDifference);
+
+        check([megaArray, expected], sumList, sortAndFindDifference);
+        check([megaArray, expected], sumList, sortAndFindDifference);
+        check([megaArray, expected], sumList, sortAndFindDifference);
+        check([megaArray, expected], sumList, sortAndFindDifference);
     });
+
+const { Hello } = require('./build/Release/addon');
+
+console.log(Hello());
+// part1.forEach(input => check(input, sumList, findDifference));
+// part1.forEach(input => check(input, sumList, sortAndFindDifference));
+// part2.forEach(input => check(input, sumList, findDivisibleValue));
