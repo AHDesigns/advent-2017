@@ -1,4 +1,8 @@
-const { check, readFile, stringToArray } = require('./utils');
+const { RUN, TEST, stringToNumArr } = require('./utils');
+
+/* --------------------------------------------- */
+/* TEST INPUTS
+/* --------------------------------------------- */
 
 const part1 = [
     ['1122', 3],
@@ -14,21 +18,30 @@ const part2 = [
     ['123123', 12],
 ];
 
-const compareAgainst = (ishalf, i, orig) => {
-    const buff = ishalf ? (orig.length / 2) : 1;
-    return orig[(i + buff) % orig.length];
-};
+/* --------------------------------------------- */
+/* METHODS
+/* --------------------------------------------- */
 
-const captcha = (input, ishalf) => stringToArray(input, '')
+const methodOne = (input) => stringToNumArr(input, '')
     .reduce((acc, cur, i, arr) => (
-        cur === (compareAgainst(ishalf, i, arr)) ? acc + cur : acc
+        cur === arr[ (i + 1) % arr.length ]
+        ? acc + cur
+        : acc
     ), 0);
 
-part1.forEach(input => check(input, captcha));
-part2.forEach(input => check(input, captcha, true));
+const methodTwo = (input) => stringToNumArr(input, '')
+    .reduce((acc, cur, i, arr) => (
+        cur === arr[ (i + arr.length / 2) % arr.length ]
+        ? acc + cur
+        : acc
+    ), 0);
 
-readFile('../input/01.txt')
-    .then((input) => {
-        check([input, 1136], captcha);
-        check([input, 1092], captcha, true);
-    });
+/* --------------------------------------------- */
+/* RUN
+/* --------------------------------------------- */
+
+TEST(part1, methodOne);
+TEST(part2, methodTwo);
+
+RUN('01', 1136, methodOne);
+RUN('01', 1092, methodTwo);

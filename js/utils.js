@@ -7,24 +7,19 @@ const readFile = file => new Promise((resolve) => {
     });
 });
 
-const stringToArray = (numberString, seperator) => numberString
+const stringToNumArr = (numberString, seperator) => numberString
     .split(seperator).map(n => parseInt(n, 10));
 
 const printP = promisedRes => promisedRes
     .then(a => console.log(a))
     .catch(err => console.log(err));
 
-function check([input, expected], meth, ...args) {
-    const printableInput = JSON.stringify(input).slice(0, 30);
-
+function check([input, expected], meth) {
+    const printableInput = JSON.stringify(input).slice(0, 25);
     console.log(chalk.gray('==========================================='));
 
-    console.log(input.length);
     console.time(' ');
-    // let timeTaken = new Date();
-    const res = meth(input, ...args);
-    // timeTaken = new Date() - timeTaken;
-    // console.log(timeTaken);
+    const res = meth(input);
     console.timeEnd(' ');
 
     if (res === expected) {
@@ -40,9 +35,21 @@ function check([input, expected], meth, ...args) {
         /* eslint-enable */
     }
 }
+
+const RUN = (fileNumber, expectedResult, transformationMethod, stringParseMethod = x => x) => {
+    readFile(`../input/${fileNumber}.txt`)
+        .then((rawStringInput) => {
+            const usefulInput = stringParseMethod(rawStringInput);
+            check([usefulInput, expectedResult], transformationMethod);
+        });
+}
+
+const TEST = (array, method) => array.forEach(input => check(input, method));
+
 module.exports = {
-    stringToArray,
-    readFile,
+    TEST,
+    RUN,
+    stringToNumArr,
     printP,
     check,
 };

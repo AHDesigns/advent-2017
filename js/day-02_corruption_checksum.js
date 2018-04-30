@@ -1,4 +1,4 @@
-const { check, readFile, stringToArray } = require('./utils');
+const { RUN, TEST, stringToNumArr } = require('./utils');
 
 const part1 = [
     [
@@ -58,39 +58,23 @@ const sortAndFindDifference = ([...arr]) => {
     return arr[arr.length - 1] - arr[0];
 };
 
-const sumList = (input, meth) => (
-    input.reduce((total, arr) => (
+const sumList = (input, meth) => {
+    // const arr = stringMethod(input);
+    return input.reduce((total, arr) => (
         total + meth(arr)
     ), 0)
-);
+};
 
+const methodWrapper = methodNumber => [
+    sumList,
+    methodNumber === 1 ? findDifference : findDivisibleValue
+];
+/* --------------------------------------------- */
+/* RUN
+/* --------------------------------------------- */
 
+TEST(part1, methodWrapper(1));
+TEST(part2, methodWrapper(2));
 
-readFile('../input/02.txt')
-    .then((text) => {
-        const multiplier = 800;
-        let megaArray = [];
-        const input = stringMethod(text);
-        for (let x = 0; x < multiplier; x++) {
-            megaArray = [...megaArray, ...input];
-        }
-        const expected = 47136 * multiplier;
-        //
-        // check([megaArray, 250], sumList, findDivisibleValue);
-        check([megaArray, expected], sumList, findDifference);
-        check([megaArray, expected], sumList, findDifference);
-        check([megaArray, expected], sumList, findDifference);
-        check([megaArray, expected], sumList, findDifference);
-
-        check([megaArray, expected], sumList, sortAndFindDifference);
-        check([megaArray, expected], sumList, sortAndFindDifference);
-        check([megaArray, expected], sumList, sortAndFindDifference);
-        check([megaArray, expected], sumList, sortAndFindDifference);
-    });
-
-const { Hello } = require('./build/Release/addon');
-
-console.log(Hello());
-// part1.forEach(input => check(input, sumList, findDifference));
-// part1.forEach(input => check(input, sumList, sortAndFindDifference));
-// part2.forEach(input => check(input, sumList, findDivisibleValue));
+RUN('02', 47136, methodWrapper(1), stringMethod);
+RUN('02', 250, methodWrapper(2), stringMethod);
