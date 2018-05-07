@@ -1,6 +1,6 @@
-const { READ, RUN } = require('./utils');
-const { stringTo2dNumArr } = require('./stringTrasformers');
-const { d2: { part1, part2 } } = require('./tests');
+const { READ, RUN } = require('./utils/utils');
+const { stringTo2dNumArr } = require('./utils/stringTrasformers');
+const { d2: { part1, part2 } } = require('./utils/tests');
 
 const valInArr = (val, [head, ...tail]) => {
     if (!head) return undefined;

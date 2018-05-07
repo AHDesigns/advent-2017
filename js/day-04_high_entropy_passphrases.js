@@ -1,29 +1,39 @@
-const R = require('ramda');
+const { READ, RUN } = require('./utils/utils');
+const { stringTo2dArr } = require('./utils/stringTrasformers');
+const {
+    not,
+    compose,
+    findLength,
+    filter,
+} = require('./utils/functional');
 
-const { readFile, printP } = require('./utils');
+/* --------------------------------------------- */
+/* METHS
+/* --------------------------------------------- */
+const duplicateWords = arr => arr.some((arrElement, i) => (
+    arr.filter((test, j) => (test === arrElement && i !== j)).length > 0
+)) > 0;
 
-const duplicateWords = (arr) => {
-        return arr.some((arrElement, i) => (
-                arr.filter((test, j) => (test === arrElement && i !== j)).length > 0
-        )) > 0
-};
+const shuffleWordsAlphabetically = arr => arr.map(word => word.split('').sort().join(''));
 
-const anagramInArr = (arr) => duplicateWords(arr.map(word => word.split('').sort().join('')));
+const anagramInArr = compose(
+    shuffleWordsAlphabetically,
+    duplicateWords,
+);
 
-const stringTo2dArray = (string) => string.split('\n').map(phrase => phrase.split(' '));
+const noDuplicates = compose(
+    filter(not(duplicateWords)),
+    findLength,
+);
+const noAnagrams = compose(
+    filter(not(anagramInArr)),
+    findLength,
+);
 
-const findAnswer = (data, method) => data.filter(pass => (method(pass)));
-
-const answer = (arr) => arr.length;
-const noDuplicates = (data) => data.filter(arr => !duplicateWords(arr));
-const noDuplicatesOrAnagrams = (data) => data.filter(arr => !duplicateWords(arr) && !anagramInArr(arr))
-
-const evaluate = (data, method) => R.composeP(
-        answer,
-        method,
-        stringTo2dArray,
-        readFile
-)(data);
-
-printP(evaluate('./4_data.txt', noDuplicates));
-printP(evaluate('./4_data.txt', noDuplicatesOrAnagrams));
+/* --------------------------------------------- */
+/* READ
+/* --------------------------------------------- */
+READ('04', stringTo2dArr(' '))(
+    RUN(455, noDuplicates),
+    RUN(186, noAnagrams),
+);

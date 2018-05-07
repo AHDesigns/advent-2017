@@ -1,6 +1,6 @@
-const { READ, RUN } = require('./utils');
-const { stringToNumArr } = require('./stringTrasformers');
-const { d1: { part1, part2 } } = require('./tests');
+const { READ, RUN } = require('./utils/utils');
+const { stringToNumArr } = require('./utils/stringTrasformers');
+const { d1: { part1, part2 } } = require('./utils/tests');
 
 const methodOne = input => stringToNumArr(input, '')
     .reduce((acc, cur, i, arr) => (

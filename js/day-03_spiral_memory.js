@@ -1,6 +1,6 @@
-const { READ, RUN } = require('./utils');
-const { stringToNum } = require('./stringTrasformers');
-const { d3: { part1, part2 } } = require('./tests');
+const { READ, RUN } = require('./utils/utils');
+const { stringToNum } = require('./utils/stringTrasformers');
+const { d3: { part1, part2 } } = require('./utils/tests');
 
 function generateArray(target) {
     const arr = [[1, 1, 0]];
@@ -21,7 +21,7 @@ function generateArray(target) {
 }
 
 function findSteps(input, spiral = []) {
-    const [min, max, layer] = spiral.find(([ min, max ]) => (min <= input && input <= max))
+    const [min, max, layer] = spiral.find(([min, max]) => (min <= input && input <= max));
     const diff = input - min;
 
     if (diff === 0) {

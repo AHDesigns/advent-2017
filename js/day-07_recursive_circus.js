@@ -1,5 +1,5 @@
 const R = require('ramda');
-const { readFile, printP } = require('./utils');
+const { readFile, printP } = require('./utils/utils');
 
 const arr = [];
 const regName = /^[a-z]+\b/g;
