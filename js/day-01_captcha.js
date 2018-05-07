@@ -21,14 +21,14 @@ const methodTwo = input => stringToNumArr(input, '')
 /* --------------------------------------------- */
 
 part1.forEach(([input, expected]) => {
-    RUN(input, expected, methodOne);
+    RUN(expected, methodOne)(input);
 });
 
 part2.forEach(([input, expected]) => {
-    RUN(input, expected, methodTwo);
+    RUN(expected, methodTwo)(input);
 });
 
-READ('01').then((input) => {
-    RUN(input, 1136, methodOne);
-    RUN(input, 1092, methodTwo);
-}).catch(() => {});
+READ('01')(
+    RUN(1136, methodOne),
+    RUN(1092, methodTwo),
+);

@@ -3,7 +3,7 @@ const chalk = require('chalk');
 
 const line = '-------------------------------------------';
 
-const RUN = (input, expected, meth) => {
+const RUN = (expected, meth) => (input) => {
     const printableInput = JSON.stringify(input).slice(0, 25);
     console.log(chalk.gray(line));
 
@@ -33,19 +33,17 @@ const readFile = f => new Promise((res, rej) => {
     });
 });
 
-const READ = async (fileNumber, stringParseMethod = x => x) => {
+const READ = (fileNumber, stringParseMethod = x => x) => async (...funcs) => {
     try {
         const data = await readFile(`../input/${fileNumber}.txt`);
-        const parsedData = stringParseMethod(data);
-
-        return parsedData;
+        const input = stringParseMethod(data);
+        funcs.forEach((func) => { func(input); });
     } catch (e) {
         console.log(
             chalk.red(line),
             '\n', e, '\n',
             chalk.red(line),
         );
-        throw e;
     }
 };
 
