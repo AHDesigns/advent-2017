@@ -1,4 +1,4 @@
-const { TEST } = require('./utils');
+const { RUN } = require('./utils');
 const { d3 } = require('./tests');
 
 function generateArray(target) {
@@ -49,8 +49,8 @@ function methodOne(arrayOfInputs) {
 }
 
 /* --------------------------------------------- */
-/* RUN
+/* READ
 /* --------------------------------------------- */
 
-TEST(d3.part1, methodOne(d3.part1));
-// TEST(d3.part2, methodTwo);
+RUN(d3.part1, methodOne(d3.part1));
+// RUN(d3.part2, methodTwo);

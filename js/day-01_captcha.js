@@ -1,6 +1,8 @@
-const { RUN, TEST } = require('./utils');
+const { READ, RUN } = require('./utils');
 const { stringToNumArr } = require('./stringTrasformers');
-const { d1 } = require('./tests');
+const { d1: { part1, part2 } } = require('./tests');
+
+const inputFile = READ();
 
 const methodOne = input => stringToNumArr(input, '')
     .reduce((acc, cur, i, arr) => (
@@ -20,8 +22,15 @@ const methodTwo = input => stringToNumArr(input, '')
 /* RUN
 /* --------------------------------------------- */
 
-TEST(d1.part1, methodOne);
-TEST(d1.part2, methodTwo);
+part1.forEach(([input, expected]) => {
+    console.log('run');
+    RUN(Promise.resolve(input), expected, methodOne);
+});
 
-RUN('01', 1136, methodOne);
-RUN('01', 1092, methodTwo);
+part2.forEach(([input, expected]) => {
+    console.log('run2');
+    RUN(Promise.resolve(input), expected, methodTwo);
+});
+
+RUN(inputFile('01'), 1136, methodOne);
+RUN(inputFile('01'), 1092, methodTwo);

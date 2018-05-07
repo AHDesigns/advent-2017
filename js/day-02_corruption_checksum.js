@@ -1,4 +1,4 @@
-const { RUN, TEST } = require('./utils');
+const { READ, RUN } = require('./utils');
 const { stringTo2dNumArr } = require('./stringTrasformers');
 const { d2 } = require('./tests');
 
@@ -31,11 +31,11 @@ const methodTwo = input => input.reduce((total, arr) => (
 
 
 /* --------------------------------------------- */
-/* RUN
+/* READ
 /* --------------------------------------------- */
 
-TEST(d2.part1, methodOne);
-TEST(d2.part2, methodTwo);
+RUN(d2.part1, methodOne);
+RUN(d2.part2, methodTwo);
 
-RUN('02', 47136, methodOne, stringTo2dNumArr('\t'));
-RUN('02', 250, methodTwo, stringTo2dNumArr('\t'));
+READ('02', 47136, methodOne, stringTo2dNumArr('\t'));
+READ('02', 250, methodTwo, stringTo2dNumArr('\t'));

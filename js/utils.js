@@ -1,51 +1,62 @@
 const fs = require('fs');
 const chalk = require('chalk');
 
-const readFile = file => new Promise((resolve) => {
-    fs.readFile(file, 'utf8', (err, data) => {
-        resolve(data) && data; // eslint-disable-line no-unused-expressions
-    });
-});
+const RUN = async (inputP, expected, meth) => {
+    const line = '-------------------------------------------';
+    try {
+        const input = await inputP;
 
-const printP = promisedRes => promisedRes
-    .then(a => console.log(a))
-    .catch(err => console.log(err));
+        const printableInput = JSON.stringify(input).slice(0, 25);
+        console.log(chalk.gray(line));
 
-function check([input, expected], meth) {
-    const printableInput = JSON.stringify(input).slice(0, 25);
-    console.log(chalk.gray('==========================================='));
+        console.time(' ');
+        const res = meth(input);
+        console.timeEnd(' ');
 
-    console.time(' ');
-    const res = meth(input);
-    console.timeEnd(' ');
-
-    if (res === expected) {
-        /* eslint-disable */
+        if (res === expected) {
+            /* eslint-disable */
+            console.log(
+                chalk.green(' ✓ '), printableInput, chalk.yellow(' ---> '), expected,
+            );
+        } else {
+            console.log(
+                chalk.red(' x '), printableInput, chalk.yellow(' ---> '), expected,
+                '\n result was ', res,
+            );
+            /* eslint-enable */
+        }
+        console.log(chalk.gray(line));
+    } catch (e) {
         console.log(
-            chalk.green(' ✓ '), printableInput, chalk.yellow(' ---> '), expected,
+            chalk.red(line),
+            '\n', e, '\n',
+            chalk.red(line),
         );
-    } else {
-        console.log(
-            chalk.red(' x '), printableInput, chalk.yellow(' ---> '), expected,
-            '\n result was ', res,
-        );
-        /* eslint-enable */
     }
-}
-
-const RUN = (fileNumber, expectedResult, transformationMethod, stringParseMethod = x => x) => {
-    readFile(`../input/${fileNumber}.txt`)
-        .then((rawStringInput) => {
-            const usefulInput = stringParseMethod(rawStringInput);
-            check([usefulInput, expectedResult], transformationMethod);
-        });
 };
 
-const TEST = (array, method) => array.forEach(input => check(input, method));
+const READ = () => {
+    const cache = {};
+    return (fileNumber, stringParseMethod = x => x) => new Promise((res, rej) => {
+        console.log(fileNumber);
+        console.log(cache);
+        if (fileNumber in cache) {
+            res(cache[ fileNumber ]);
+        }
+
+        console.log('did not hit cache');
+        fs.readFile(`../input/${fileNumber}.txt`, 'utf8', (err, data) => {
+            if (err) rej(new Error(err));
+            const parsedData = stringParseMethod(data);
+            cache[ fileNumber ] = parsedData;
+
+            console.log('returning');
+            res(parsedData);
+        });
+    });
+};
 
 module.exports = {
-    TEST,
+    READ,
     RUN,
-    printP,
-    check,
 };
