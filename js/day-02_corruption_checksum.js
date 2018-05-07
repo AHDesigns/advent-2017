@@ -1,34 +1,6 @@
-const { RUN, TEST, stringToNumArr } = require('./utils');
-
-const part1 = [
-    [
-        [
-            [5, 1, 9, 5],
-            [7, 5, 3],
-            [2, 4, 6, 8],
-        ],
-        18,
-    ],
-];
-
-const part2 = [
-    [
-        [
-            [5, 9, 2, 8],
-            [9, 4, 7, 3],
-            [3, 8, 6, 5],
-        ],
-        9,
-    ],
-];
-
-const stringMethod = string => string
-    .split('\n')
-    .map(phrase => (
-        phrase
-            .split('\t')
-            .map(n => parseInt(n, 10))
-    ));
+const { RUN, TEST } = require('./utils');
+const { stringTo2dNumArr } = require('./stringTrasformers');
+const { d2 } = require('./tests');
 
 const valInArr = (val, [head, ...tail]) => {
     if (!head) return undefined;
@@ -44,37 +16,26 @@ const valInArr = (val, [head, ...tail]) => {
 const findDivisibleValue = ([head, ...tail]) =>
     valInArr(head, tail) || findDivisibleValue(tail);
 
-const findDifference = ([head, ...tail], values = { largest: head, smallest: head }) => {
-    if (!head) return values.largest - values.smallest;
-
-    if (head > values.largest) return findDifference(tail, { ...values, largest: head });
-    if (head < values.smallest) return findDifference(tail, { ...values, smallest: head });
-
-    return findDifference(tail, values);
-};
-
 const sortAndFindDifference = ([...arr]) => {
     arr.sort((a, b) => a - b);
-    return arr[arr.length - 1] - arr[0];
+    return arr[ arr.length - 1 ] - arr[ 0 ];
 };
 
-const sumList = (input, meth) => {
-    // const arr = stringMethod(input);
-    return input.reduce((total, arr) => (
-        total + meth(arr)
-    ), 0)
-};
+const methodOne = input => input.reduce((total, arr) => (
+    total + sortAndFindDifference(arr)
+), 0);
 
-const methodWrapper = methodNumber => [
-    sumList,
-    methodNumber === 1 ? findDifference : findDivisibleValue
-];
+const methodTwo = input => input.reduce((total, arr) => (
+    total + findDivisibleValue(arr)
+), 0);
+
+
 /* --------------------------------------------- */
 /* RUN
 /* --------------------------------------------- */
 
-TEST(part1, methodWrapper(1));
-TEST(part2, methodWrapper(2));
+TEST(d2.part1, methodOne);
+TEST(d2.part2, methodTwo);
 
-RUN('02', 47136, methodWrapper(1), stringMethod);
-RUN('02', 250, methodWrapper(2), stringMethod);
+RUN('02', 47136, methodOne, stringTo2dNumArr('\t'));
+RUN('02', 250, methodTwo, stringTo2dNumArr('\t'));

@@ -2,3 +2,4 @@ root: true
 extends: airbnb-base
 rules:
   indent: ["error", 4]
+  computed-property-spacing: ["error", "always"]

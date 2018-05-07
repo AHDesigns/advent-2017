@@ -7,9 +7,6 @@ const readFile = file => new Promise((resolve) => {
     });
 });
 
-const stringToNumArr = (numberString, seperator) => numberString
-    .split(seperator).map(n => parseInt(n, 10));
-
 const printP = promisedRes => promisedRes
     .then(a => console.log(a))
     .catch(err => console.log(err));
@@ -42,14 +39,13 @@ const RUN = (fileNumber, expectedResult, transformationMethod, stringParseMethod
             const usefulInput = stringParseMethod(rawStringInput);
             check([usefulInput, expectedResult], transformationMethod);
         });
-}
+};
 
 const TEST = (array, method) => array.forEach(input => check(input, method));
 
 module.exports = {
     TEST,
     RUN,
-    stringToNumArr,
     printP,
     check,
 };
