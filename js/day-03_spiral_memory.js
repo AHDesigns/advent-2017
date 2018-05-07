@@ -1,5 +1,6 @@
-const { RUN } = require('./utils');
-const { d3 } = require('./tests');
+const { READ, RUN } = require('./utils');
+const { stringToNum } = require('./stringTrasformers');
+const { d3: { part1, part2 } } = require('./tests');
 
 function generateArray(target) {
     const arr = [[1, 1, 0]];
@@ -41,16 +42,17 @@ function findSteps(input, spiral = []) {
 
 
 function methodOne(arrayOfInputs) {
-    const [largest] = arrayOfInputs.reduce((acc, val) => (val[ 0 ] > acc[ 0 ] ? val : acc));
-    const spiral = generateArray(largest);
-    return function calculateAnser(input) {
-        return findSteps(input, spiral);
-    };
+    // const [largest] = arrayOfInputs.reduce((acc, val) => (val[ 0 ] > acc[ 0 ] ? val : acc));
+    const spiral = generateArray(arrayOfInputs);
+    return findSteps(arrayOfInputs, spiral);
 }
 
 /* --------------------------------------------- */
 /* READ
 /* --------------------------------------------- */
 
-RUN(d3.part1, methodOne(d3.part1));
-// RUN(d3.part2, methodTwo);
+part1.forEach(([input, expected]) => {
+    RUN(expected, methodOne)(input);
+});
+
+READ('03', stringToNum)(RUN(371, methodOne));

@@ -5,6 +5,7 @@ const line = '-------------------------------------------';
 
 const RUN = (expected, meth) => (input) => {
     const printableInput = JSON.stringify(input).slice(0, 25);
+
     console.log(chalk.gray(line));
 
     console.time(' ');

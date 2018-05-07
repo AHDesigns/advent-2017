@@ -1,6 +1,6 @@
 const { READ, RUN } = require('./utils');
 const { stringTo2dNumArr } = require('./stringTrasformers');
-const { d2 } = require('./tests');
+const { d2: { part1, part2 } } = require('./tests');
 
 const valInArr = (val, [head, ...tail]) => {
     if (!head) return undefined;
@@ -34,8 +34,15 @@ const methodTwo = input => input.reduce((total, arr) => (
 /* READ
 /* --------------------------------------------- */
 
-RUN(d2.part1, methodOne);
-RUN(d2.part2, methodTwo);
+part1.forEach(([input, expected]) => {
+    RUN(expected, methodOne)(input);
+});
 
-READ('02', 47136, methodOne, stringTo2dNumArr('\t'));
-READ('02', 250, methodTwo, stringTo2dNumArr('\t'));
+part2.forEach(([input, expected]) => {
+    RUN(expected, methodTwo)(input);
+});
+
+READ('02', stringTo2dNumArr('\t'))(
+    RUN(47136, methodOne),
+    RUN(250, methodTwo),
+);

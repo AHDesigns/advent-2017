@@ -1,5 +1,8 @@
+const stringToNum = s => parseInt(s, 10);
+
 const stringToNumArr = (numberString, seperator) => numberString
-    .split(seperator).map(n => parseInt(n, 10));
+    .split(seperator)
+    .map(stringToNum);
 
 const stringTo2dNumArr = seperator => string => string
     .split('\n')
